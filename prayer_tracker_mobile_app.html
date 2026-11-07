@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ta"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#073f35"><meta name="description" content="தொழுகை தினசரி மற்றும் மாதாந்திர பதிவு">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Prayer Tracker</title>
+<style>
+:root{--g:#073f35;--g2:#087b60;--bg:#f2f7f3;--ink:#18352e;--muted:#71847c;--line:#e5eee8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,"Noto Sans Tamil",sans-serif;padding-bottom:82px}
+header{height:64px;background:var(--g);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 17px;position:sticky;top:0;z-index:5;box-shadow:0 3px 15px #002b2240}
+.brand{display:flex;align-items:center;gap:10px;font-weight:bold;font-size:17px}.logo{width:39px;height:39px;border-radius:13px;background:#ffffff20;display:grid;place-items:center;font-size:22px}
+button{border:0;border-radius:13px;min-height:43px;padding:0 14px;background:var(--g);color:white;font-weight:bold;font-size:12px;cursor:pointer}
+.install{background:#f1d88e;color:#243c32;min-height:35px;border-radius:22px}
+main{max-width:760px;margin:auto;padding:15px}
+.hero{background:linear-gradient(140deg,#064b3c,#0b8564);color:white;border-radius:23px;padding:21px 18px;margin-bottom:14px;box-shadow:0 8px 22px #075b4320}
+.hero h1{font-size:21px;margin:0 0 8px}.hero p{font-size:12px;color:#d8eee5;line-height:1.7;margin:0}.date{font-size:12px;color:#d8eee5;margin-top:14px}
+.panel,.stat,.tablecard{background:white;border:1px solid var(--line);border-radius:17px;box-shadow:0 4px 16px #153d2909}
+.panel{padding:15px;margin-bottom:13px}.monthrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.monthrow label{font-size:13px;font-weight:bold}
+input[type=month]{max-width:170px;padding:10px;border:1px solid #dce7df;border-radius:11px;background:#fbfffc;color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:13px}.stat{text-align:center;padding:13px 7px}.num{font-size:24px;font-weight:800;color:var(--g)}.cap{font-size:10px;color:var(--muted);margin-top:4px}
+.prow{display:flex;justify-content:space-between;font-size:13px;font-weight:bold;margin-bottom:10px}.prow b{color:var(--g2)}.track{height:9px;border-radius:20px;background:#edf2ee;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#087b60,#65c394)}
+.actions{display:flex;gap:8px;margin:12px 0}.actions button{flex:1}.light{background:#e8f3ec;color:var(--g)}
+.page{display:none}.page.active{display:block}.title{font-weight:800;color:var(--g);font-size:15px;margin:4px 0 12px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:0 0 12px}
+.tablecard{overflow:hidden}.tablehead{padding:15px;font-weight:bold;color:var(--g)}.scroll{overflow-x:auto}
+table{width:100%;min-width:540px;border-collapse:collapse}th{background:#eff7f1;color:#47695b;font-size:11px;padding:12px 5px}td{border-top:1px solid #edf2ee;text-align:center;padding:6px 4px}td:first-child{font-weight:bold;font-size:12px;color:#536a60;width:55px}
+.week{display:block;font-size:9px;color:#9aa79f;font-weight:normal}.mark{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:11px;font-size:18px;font-weight:bold;color:#a4afa8;cursor:pointer;user-select:none}
+.done{color:#087a48;background:#e5f6eb}.missed{color:#c83e3e;background:#fff0ef}
+.note{text-align:center;font-size:11px;color:var(--muted);line-height:1.7;margin:13px 4px}
+.info{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;font-size:12px;color:var(--muted);line-height:1.9}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:8;background:white;border-top:1px solid var(--line);display:flex;padding:8px 10px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px #173d2910}
+nav button{flex:1;background:transparent;color:#82928a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;min-height:48px;padding:3px}
+nav button span{font-size:19px;line-height:1}nav button.active{background:#edf7f0;color:var(--g2)}
+.toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#163d32;color:white;padding:10px 15px;border-radius:22px;font-size:11px;z-index:10}
+@media(min-width:650px){body{padding-bottom:20px}nav{position:static;max-width:760px;margin:12px auto;border:1px solid var(--line);border-radius:15px}nav button{flex-direction:row}}
+@media print{body{padding:0;background:white}header,nav,.actions{display:none!important}.page{display:block!important}.hero{background:white;color:var(--g);box-shadow:none}.hero p,.date{color:#45675a}.panel,.stat,.tablecard{box-shadow:none}table{min-width:0}th,td{padding:5px 2px}}
+</style></head><body>
+<header><div class="brand"><span class="logo">🕌</span>Prayer Tracker</div><button id="install" class="install" hidden>＋ Install App</button></header>
+<main>
+<section class="page active" id="home">
+<div class="hero"><h1>அஸ்ஸலாமு அலைக்கும்</h1><p>ஐந்து நேரத் தொழுகைகளையும் தினமும் பதிவு செய்து நல்ல பழக்கத்தைத் தொடர்ந்து வளர்த்துக்கொள்ளுங்கள்.</p><div class="date" id="today"></div></div>
+<div class="panel monthrow"><label for="month">மாதாந்திர பதிவு</label><input type="month" id="month"></div>
+<div class="stats"><div class="stat"><div class="num" id="doneCount">0</div><div class="cap">✓ தொழுதவை</div></div><div class="stat"><div class="num" id="missedCount">0</div><div class="cap">✗ தவறியவை</div></div><div class="stat"><div class="num" id="pendingCount">0</div><div class="cap">○ பதிவு இல்லை</div></div></div>
+<div class="panel"><div class="prow"><span>மாத முன்னேற்றம்</span><b id="percent">0%</b></div><div class="track"><div class="bar" id="bar"></div></div></div>
+<div class="actions"><button id="openTracker">☑ தொழுகை பதிவு</button><button class="light" id="pdf">📄 PDF / Print</button></div>
+</section>
+<section class="page" id="tracker"><div class="title">📅 தினசரி தொழுகை அட்டவணை</div>
+<div class="legend">✓ தொழுதேன்　 ✗ தொழவில்லை　 ○ பதிவு இல்லை</div>
+<div class="tablecard"><div class="tablehead" id="monthLabel"></div><div class="scroll"><table><thead><tr><th>தேதி</th><th>Fajr<br>ஃபஜ்ர்</th><th>Dhuhr<br>லுஹர்</th><th>Asr<br>அஸ்ர்</th><th>Maghrib<br>மஃரிப்</th><th>Isha<br>இஷா</th></tr></thead><tbody id="days"></tbody></table></div></div>
+<p class="note">குறியீட்டைத் தொட்டு மாற்றுங்கள்: ○ → ✓ → ✗ → ○<br>பதிவுகள் இந்தச் சாதனத்தில் தானாகச் சேமிக்கப்படும்.</p></section>
+<section class="page" id="about"><div class="hero"><h1>Prayer Tracker</h1><p>தொழுகையை ஒழுங்காகப் பதிவு செய்ய உதவும் எளிய செயலி.</p></div><div class="info"><b>பயன்படுத்துவது எப்படி?</b><br>1. மாதத்தைத் தேர்வு செய்யுங்கள்.<br>2. தொழுகை அட்டவணையில் குறியீட்டைத் தொடுங்கள்.<br>3. ○ → ✓ → ✗ என்று மாறும்.<br>4. முகப்பில் மாத முன்னேற்றத்தைக் காணலாம்.<br>5. PDF / Print மூலம் அச்சிடலாம்.<br><br><b>குறிப்பு:</b> பதிவுகள் இந்த மொபைல் உலாவியில் சேமிக்கப்படும். Browser data அழிக்கப்பட்டால் பதிவுகளும் அழியலாம்.</div></section>
+</main>
+<nav><button class="active" data-page="home"><span>⌂</span>முகப்பு</button><button data-page="tracker"><span>☑</span>பதிவு</button><button data-page="about"><span>ⓘ</span>விவரம்</button></nav><div class="toast" id="toast">பதிவு சேமிக்கப்பட்டது</div>
+<script>
+const month=document.getElementById('month'),days=document.getElementById('days');let now=new Date();month.value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');document.getElementById('today').textContent=now.toLocaleDateString('ta-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function stats(){let a=0,b=0,c=0;document.querySelectorAll('.mark').forEach(x=>{if(x.textContent==='✓')a++;else if(x.textContent==='✗')b++;else c++});let pc=Math.round(a/(a+b+c||1)*100);doneCount.textContent=a;missedCount.textContent=b;pendingCount.textContent=c;percent.textContent=pc+'%';bar.style.width=pc+'%'}
+function build(){days.innerHTML='';if(!month.value)return;let [y,m]=month.value.split('-').map(Number),n=new Date(y,m,0).getDate();monthLabel.textContent=new Date(y,m-1,1).toLocaleDateString('en-IN',{month:'long',year:'numeric'});for(let d=1;d<=n;d++){let tr=document.createElement('tr'),dc=document.createElement('td'),dt=new Date(y,m-1,d);dc.innerHTML=d+'<span class="week">'+dt.toLocaleDateString('en-IN',{weekday:'short'})+'</span>';tr.appendChild(dc);for(let p=0;p<5;p++){let td=document.createElement('td'),k=`prayer-${month.value}-${d}-${p}`,v=localStorage.getItem(k)||'○',s=document.createElement('span');s.className='mark';s.textContent=v;function paint(){s.className='mark'+(v==='✓'?' done':v==='✗'?' missed':'')}paint();s.tabIndex=0;s.setAttribute('role','button');function change(){v=({'○':'✓','✓':'✗','✗':'○'})[v];localStorage.setItem(k,v);s.textContent=v;paint();stats();let t=document.getElementById('toast');t.style.display='block';setTimeout(()=>t.style.display='none',850)}s.onclick=change;s.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();change()}};td.appendChild(s);tr.appendChild(td)}days.appendChild(tr)}stats()}
+month.addEventListener('change',build);document.getElementById('pdf').onclick=()=>print();
+function page(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('nav button').forEach(x=>x.onclick=()=>page(x.dataset.page));document.getElementById('openTracker').onclick=()=>page('tracker');
+let deferred;let ib=document.getElementById('install');addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;ib.hidden=false});ib.onclick=async()=>{if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;ib.hidden=true}};
+if('serviceWorker'in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));build();
+</script></body></html>
