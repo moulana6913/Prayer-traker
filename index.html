@@ -44,12 +44,23 @@ td:first-child{font-weight:700;color:#536a60;font-size:13px;width:62px}
 .mark.done{color:#087a48;background:#e5f6eb}.mark.missed{color:#c83e3e;background:#fff0ef}
 .mark:focus{outline:2px solid var(--gold);outline-offset:2px}
 .hint{text-align:center;color:var(--muted);font-size:11px;line-height:1.6;margin:13px 4px}
+  #splash{position:fixed;inset:0;background:linear-gradient(145deg,#064b38,#0b7958);z-index:10;display:grid;place-items:center;color:white;transition:opacity .35s ease}
+.splash-inner{text-align:center}.splash-logo{width:104px;height:104px;border-radius:32px;background:#ffffff1c;border:1px solid #ffffff45;display:grid;place-items:center;font-size:55px;margin:0 auto 18px;box-shadow:0 12px 30px #001e1433}
+.splash-inner h2{margin:0;font-size:27px}.splash-inner p{color:#d7eee4;margin-top:8px;font-size:13px}
+@media print{body{background:white;padding:0}
 .footer{text-align:center;color:#91a097;font-size:10px;margin:18px 0 4px}
 @media(max-width:430px){.stats{gap:7px}.stat{padding:12px 8px}.stat .num{font-size:22px}.stat .caption{font-size:10px}.toolbar{align-items:stretch}.actions{width:100%}.actions button{flex:1}}
 @media print{body{background:white;padding:0}.hero{background:white;color:var(--deep);box-shadow:none;margin:0;padding:8px}.logo,.hero-tag,.actions,.hint,.footer{display:none}.sub{color:#45675a}.toolbar{margin:5px 0}.monthbox{max-width:200px}.stats,.progress-card{box-shadow:none}.card{box-shadow:none;border:0}.table-wrap{overflow:visible}table{min-width:0}th,td{padding:5px 2px}.mark{width:25px;height:25px;font-size:15px}@page{size:A4 portrait;margin:9mm}}
 </style>
 </head>
 <body>
+  <div id="splash" aria-label="Prayer Tracker loading">
+  <div class="splash-inner">
+    <div class="splash-logo">🕌</div>
+    <h2>Prayer Tracker</h2>
+    <p>தொழுகை மாதாந்திர கணக்கு</p>
+  </div>
+  </div>
 <header class="hero">
   <div class="logo">🕌</div>
   <h1>Prayer Tracker</h1>
@@ -130,6 +141,8 @@ function createTable(){
 month.addEventListener("change",createTable);
 document.getElementById("pdfBtn").addEventListener("click",()=>window.print());
 document.getElementById("fullBtn").addEventListener("click",async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){alert("இந்த browser-ல் Full Screen வசதி கிடைக்கவில்லை.")}});
+createTable();
+  window.addEventListener("load",()=>setTimeout(()=>{const s=document.getElementById("splash");s.style.opacity="0";setTimeout(()=>s.remove(),380)},850));
 createTable();
 </script>
 </body>
